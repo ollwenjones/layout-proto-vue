@@ -1,7 +1,7 @@
 <template>
   <div class="editor__properites">
     <editor-category-label>Size</editor-category-label>
-    <text-field label="width" :value="gridWidth" @input="onWidthChange" @click="yell"></text-field>
+    <text-field label="width" :value="gridWidth" @input="onWidthChange"></text-field>
     <text-field label="height" :value="gridHeight" @input="onHeightChange"></text-field>
     <editor-category-label>Layout Columns</editor-category-label>(How many columns per screen size?)
     <cell-config-labels></cell-config-labels>
@@ -39,9 +39,6 @@ import EditorCells from "./EditorCells.vue";
   }
 })
 export default class FlexboxGridEditor extends Vue {
-  // PropSync equivalent to props + computed in classic Vue
-  // @PropSync('width', { type: Number })
-  // @State('state') state: FlexGridConfig;
   @Getter gridWidth?: number;
   @Getter gridHeight?: number;
   @Getter rowGap?: number;

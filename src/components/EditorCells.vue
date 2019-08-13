@@ -1,12 +1,23 @@
 <template>
-  <div id="editor__cells-area">Hi, I'm cells editor</div>
+  <div id="editor__cells-area">
+    <editor-cell v-for="(cell, index) in cellModels" :cell="cell" :key="'cell-' + index"></editor-cell>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { Getter } from "vuex-class";
+import { FlexGridCellConfig } from "../store";
+import EditorCell from "./EditorCell.vue";
 
-@Component
-export default class EditorCells extends Vue {}
+@Component({
+  components: {
+    EditorCell
+  }
+})
+export default class EditorCells extends Vue {
+  @Getter cellModels!: FlexGridCellConfig[];
+}
 </script>
 
 <style lang="less">
