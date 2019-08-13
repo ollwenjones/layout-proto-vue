@@ -1,18 +1,16 @@
 <template>
-    <h4 class="editor__category">
-        <slot></slot>
-    </h4>
+  <h4 class="editor__category">
+    <slot></slot>
+  </h4>
 </template>
 
 <script lang="ts">
-
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class EditorCategoryLabel extends Vue {
   @Prop() private title!: string;
 }
-
 </script>
 
 <style lang="less">

@@ -20,8 +20,8 @@ export default class App extends Vue {}
 </script>
 
 <style lang="less">
-
-body, .editor {
+body,
+.editor {
   font-family: sans-serif;
   height: 100%;
   background: #efefef;
@@ -36,5 +36,4 @@ body, .editor {
   height: 100%;
   align-items: flex-start;
 }
-
 </style>

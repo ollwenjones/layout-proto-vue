@@ -6,12 +6,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { mapState } from 'vuex';
-import { FlexGridConfig } from '../store';
+import { mapState } from "vuex";
+import { FlexGridConfig } from "../store";
 
 @Component({
   computed: mapState<FlexGridConfig>({
-    styleObj: ({ width, height }) => ({ maxWidth: width + "px", height: height + "px"})
+    styleObj: ({ width, height }) => ({
+      maxWidth: width + "px",
+      height: height + "px"
+    })
   })
 })
 export default class FlexboxGrid extends Vue {

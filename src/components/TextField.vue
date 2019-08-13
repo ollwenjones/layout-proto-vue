@@ -1,7 +1,12 @@
 <template>
   <label class="field" :for="label">
     <span class="field__label">{{ label }}</span>
-    <input class="field__input" :id="label" :value="value" />
+    <input
+      class="field__input"
+      :id="label"
+      :value="value"
+      @input="$emit('input', $event.target.value)"
+    />
   </label>
 </template>
 

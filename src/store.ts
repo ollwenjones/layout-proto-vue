@@ -12,8 +12,8 @@ export default new Vuex.Store({
     SET_GRID_WIDTH: function setGridWidth(state, width: number) {
       state.width = width;
     },
-    SET_GRID_HEIGHT: function setGridHeight(state, width: number) {
-      state.width = width;
+    SET_GRID_HEIGHT: function setGridHeight(state, height: number) {
+      state.height = height;
     },
     SET_GUTTER_HORIZONTAL: (state, gutter) =>
       (state.gutters.horizontal = gutter),
@@ -35,14 +35,25 @@ export default new Vuex.Store({
       // not as obvious, need index and config, probably to know which to update
     },
     updateWidth: ({ commit }, width: number) => commit("SET_GRID_WIDTH", width),
-    updateHeight: ({ commit }, height: number) => commit("SET_GRID_WIDTH", height),
-    updateGutterHorizontal: ({ commit }, gutter: number) => commit("SET_GUTTER_HORIZONTAL", gutter),
-    updateGutterVertical: ({ commit }, gutter: number) => commit("SET_GUTTER_VERTICAL", gutter),
-    updateMarginHorizontal: ({ commit }, margin: number) => commit("SET_MARGIN_HORIZONTAL", margin),
-    updateMarginVertical: ({ commit }, margin: number) => commit("SET_MARGIN_VERTICAL", margin),
+    updateHeight: ({ commit }, height: number) =>
+      commit("SET_GRID_HEIGHT", height),
+    updateGutterHorizontal: ({ commit }, gutter: number) =>
+      commit("SET_GUTTER_HORIZONTAL", gutter),
+    updateGutterVertical: ({ commit }, gutter: number) =>
+      commit("SET_GUTTER_VERTICAL", gutter),
+    updateMarginHorizontal: ({ commit }, margin: number) =>
+      commit("SET_MARGIN_HORIZONTAL", margin),
+    updateMarginVertical: ({ commit }, margin: number) =>
+      commit("SET_MARGIN_VERTICAL", margin)
   },
   getters: {
-    cellModelsAsText: state => cellsModelToText(state.cells)
+    cellModelsAsText: state => cellsModelToText(state.cells),
+    gridWidth: state => state.width,
+    gridHeight: state => state.height,
+    rowGap: state => state.gutters.vertical,
+    colGap: state => state.gutters.horizontal,
+    verticalMargin: state => state.margins.vertical,
+    horizontalMargin: state => state.margins.horizontal
   }
 });
 
@@ -125,8 +136,8 @@ function getCellColumns(cell: FlexGridCellConfig) {
 function getDefaultState(): FlexGridConfig {
   return {
     columns: { desktop: 12, tablet: 8, phone: 4 },
-    width: 600,
-    height: 500,
+    width: 601,
+    height: 501,
     gutters: {
       horizontal: 8,
       vertical: 5

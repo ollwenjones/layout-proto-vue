@@ -1,14 +1,12 @@
 <template>
-    <div id="editor__cells-area">Hi, I'm cells editor</div>
+  <div id="editor__cells-area">Hi, I'm cells editor</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class EditorCells extends Vue {
-
-}
+export default class EditorCells extends Vue {}
 </script>
 
 <style lang="less">
@@ -35,6 +33,5 @@ export default class EditorCells extends Vue {
   max-height: 200px;
   overflow-y: auto;
 }
-
 </style>
 

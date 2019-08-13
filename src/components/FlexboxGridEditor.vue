@@ -1,8 +1,8 @@
 <template>
   <div class="editor__properites">
     <editor-category-label>Size</editor-category-label>
-    <text-field label="width" value="600"></text-field>
-    <text-field label="height" value="500"></text-field>
+    <text-field label="width" :value="gridWidth" @input="onWidthChange" @click="yell"></text-field>
+    <text-field label="height" :value="gridHeight" @input="onHeightChange"></text-field>
     <editor-category-label>Layout Columns</editor-category-label>(How many columns per screen size?)
     <cell-config-labels></cell-config-labels>
     <div class="column-fields">
@@ -14,17 +14,19 @@
     <editor-cells></editor-cells>
     <cell-config-labels></cell-config-labels>
     <editor-category-label>Gutters</editor-category-label>
-    <text-field label="row-gap" value="5"></text-field>
-    <text-field label="column-gap" value="8"></text-field>
-    <text-field label="horizontal-margin" value="15"></text-field>
-    <text-field label="vertical-margin" value="10"></text-field>
+    <text-field label="row-gap" :value="rowGap" @input="onGutterHorizontalChange"></text-field>
+    <text-field label="column-gap" :value="colGap" @input="onGutterVerticalChange"></text-field>
+    <text-field label="horizontal-margin" :value="horizontalMargin" @input="onMarginHorizontalChange"></text-field>
+    <text-field label="vertical-margin" :value="verticalMargin" @input="onMarginVerticalChange"></text-field>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, PropSync } from "vue-property-decorator";
+import Store, { FlexGridConfig } from "../store";
 import EditorCategoryLabel from "./EditorCategoryLabel.vue";
 import TextField from "./TextField.vue";
+import { State, Action, Getter } from "vuex-class";
 import CellConfigLabels from "./CellConfigLabels.vue";
 import EditorCells from "./EditorCells.vue";
 
@@ -36,7 +38,45 @@ import EditorCells from "./EditorCells.vue";
     CellConfigLabels
   }
 })
-export default class FlexboxGridEditor extends Vue {}
+export default class FlexboxGridEditor extends Vue {
+  // PropSync equivalent to props + computed in classic Vue
+  // @PropSync('width', { type: Number })
+  // @State('state') state: FlexGridConfig;
+  @Getter gridWidth?: number;
+  @Getter gridHeight?: number;
+  @Getter rowGap?: number;
+  @Getter colGap?: number;
+  @Getter horizontalMargin?: number;
+  @Getter verticalMargin!: number;
+
+  @Action updateWidth!: Function;
+  @Action updateHeight!: Function;
+  @Action updateGutterHorizontal!: Function;
+  @Action updateGutterVertical!: Function;
+  @Action updateMarginHorizontal!: Function;
+  @Action updateMarginVertical!: Function;
+
+  onWidthChange(value: number) {
+    this.updateWidth(value);
+  }
+
+  onHeightChange(value: number) {
+    this.updateHeight(value);
+  }
+  onGutterHorizontalChange(value: number) {
+    this.updateGutterHorizontal(value);
+  }
+  onGutterVerticalChange(value: number) {
+    this.updateGutterVertical(value);
+  }
+  onMarginHorizontalChange(value: number) {
+    this.updateMarginHorizontal(value);
+  }
+  onMarginVerticalChange(value: number) {
+    this.updateMarginVertical(value);
+  }
+
+}
 </script>
 
 <style lang="less">
@@ -70,5 +110,4 @@ export default class FlexboxGridEditor extends Vue {}
   flex: 1;
   margin-right: 0.5rem;
 }
-
 </style>
