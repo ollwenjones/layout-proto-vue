@@ -22,9 +22,10 @@ export default new Vuex.Store({
     SET_MARGIN_HORIZONTAL: (state, margin) =>
       (state.margins.horizontal = margin),
     SET_MARGIN_VERTICAL: (state, margin) => (state.margins.vertical = margin),
-    SET_DESKTOP_COLUMNS: (state, cols: number) => (state.columns.desktop) = cols,
-    SET_TABLET_COLUMNS: (state, cols: number) => (state.columns.tablet) = cols,
-    SET_PHONE_COLUMNS: (state, cols: number) => (state.columns.phone) = cols,
+    SET_DESKTOP_COLUMNS: (state, cols: number) =>
+      (state.columns.desktop = cols),
+    SET_TABLET_COLUMNS: (state, cols: number) => (state.columns.tablet = cols),
+    SET_PHONE_COLUMNS: (state, cols: number) => (state.columns.phone = cols)
   },
   actions: {
     updateCellsFromText: ({ commit, state }, text: string) =>
@@ -51,9 +52,9 @@ export default new Vuex.Store({
     updateHeight: ({ commit }, height: number) =>
       commit("SET_GRID_HEIGHT", height),
     updateRowGap: ({ commit }, gutter: number) =>
-      commit("SET_GUTTER_HORIZONTAL", gutter),
-    updateColumnGap: ({ commit }, gutter: number) =>
       commit("SET_GUTTER_VERTICAL", gutter),
+    updateColumnGap: ({ commit }, gutter: number) =>
+      commit("SET_GUTTER_HORIZONTAL", gutter),
     updateMarginHorizontal: ({ commit }, margin: number) =>
       commit("SET_MARGIN_HORIZONTAL", margin),
     updateMarginVertical: ({ commit }, margin: number) =>
