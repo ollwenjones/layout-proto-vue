@@ -1,23 +1,52 @@
 <template>
   <div class="editor__properites">
     <editor-category-label>Size</editor-category-label>
-    <text-field label="width" :value="gridWidth" @input="onWidthChange"></text-field>
-    <text-field label="height" :value="gridHeight" @input="onHeightChange"></text-field>
+    <text-field label="width" :value="gridWidth" @input="onWidthChange" type="number"></text-field>
+    <text-field label="height" :value="gridHeight" @input="onHeightChange" type="number"></text-field>
     <editor-category-label>Layout Columns</editor-category-label>(How many columns per screen size?)
     <cell-config-labels></cell-config-labels>
     <div class="column-fields">
-      <input name="columns" id="columns" cols="30" rows="10" value="12" type="number" />
-      <input name="tablet-columns" id="tablet-columns" cols="30" rows="10" value="8" type="number" />
-      <input name="phone-columns" id="phone-columns" cols="30" rows="10" value="4" type="number" />
+      <input
+        name="columns"
+        id="columns"
+        cols="30"
+        rows="10"
+        :value="desktopColumns"
+        @input="updateDesktopColumns($event.target.value)"
+        type="number"
+      />
+      <input
+        name="tablet-columns"
+        id="tablet-columns"
+        cols="30"
+        rows="10"
+        :value="tabletColumns"
+        @input="updateTabletColumns($event.target.value)"
+        type="number"
+      />
+      <input
+        name="phone-columns"
+        id="phone-columns"
+        cols="30"
+        rows="10"
+        :value="phoneColumns"
+        @input="updatePhoneColumns($event.target.value)"
+        type="number"
+      />
     </div>
     <editor-category-label>Cells</editor-category-label>
     <editor-cells></editor-cells>
     <cell-config-labels></cell-config-labels>
     <editor-category-label>Gutters</editor-category-label>
-    <text-field label="row-gap" :value="rowGap" @input="onGutterHorizontalChange"></text-field>
-    <text-field label="column-gap" :value="colGap" @input="onGutterVerticalChange"></text-field>
-    <text-field label="horizontal-margin" :value="horizontalMargin" @input="onMarginHorizontalChange"></text-field>
-    <text-field label="vertical-margin" :value="verticalMargin" @input="onMarginVerticalChange"></text-field>
+    <text-field label="row-gap" :value="rowGap" @input="updateRowGap" type="number"></text-field>
+    <text-field label="column-gap" :value="colGap" @input="onColumnGapChange" type="number"></text-field>
+    <text-field
+      label="horizontal-margin"
+      :value="horizontalMargin"
+      type="number"
+      @input="onMarginHorizontalChange"
+    ></text-field>
+    <text-field label="vertical-margin" :value="verticalMargin" @input="onMarginVerticalChange" type="number"></text-field>
   </div>
 </template>
 
@@ -45,13 +74,19 @@ export default class FlexboxGridEditor extends Vue {
   @Getter colGap?: number;
   @Getter horizontalMargin?: number;
   @Getter verticalMargin!: number;
+  @Getter desktopColumns!: number;
+  @Getter tabletColumns!: number;
+  @Getter phoneColumns!: number;
 
   @Action updateWidth!: Function;
   @Action updateHeight!: Function;
-  @Action updateGutterHorizontal!: Function;
-  @Action updateGutterVertical!: Function;
+  @Action updateRowGap!: Function;
+  @Action updateColumnGap!: Function;
   @Action updateMarginHorizontal!: Function;
   @Action updateMarginVertical!: Function;
+  @Action updateDesktopColumns!: Function;
+  @Action updateTabletColumns!: Function;
+  @Action updatePhoneColumns!: Function;
 
   onWidthChange(value: number) {
     this.updateWidth(value);
@@ -60,11 +95,11 @@ export default class FlexboxGridEditor extends Vue {
   onHeightChange(value: number) {
     this.updateHeight(value);
   }
-  onGutterHorizontalChange(value: number) {
-    this.updateGutterHorizontal(value);
+  onRowGapChange(value: number) {
+    this.updateRowGap(value);
   }
-  onGutterVerticalChange(value: number) {
-    this.updateGutterVertical(value);
+  onColumnGapChange(value: number) {
+    this.updateColumnGap(value);
   }
   onMarginHorizontalChange(value: number) {
     this.updateMarginHorizontal(value);
@@ -72,7 +107,6 @@ export default class FlexboxGridEditor extends Vue {
   onMarginVerticalChange(value: number) {
     this.updateMarginVertical(value);
   }
-
 }
 </script>
 

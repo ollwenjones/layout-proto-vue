@@ -1,15 +1,25 @@
 <template>
   <div id="grid" class="dp-flex-layout as-base-layout" :style="styleObj">
-    <!-- iterate the grid model entries -->
+    <flexbox-grid-cell v-for="(cell, index) in cellModels"
+      :key="`preview-cell-${index}`"
+      :id="`preview-cell-${index}`"
+      :index="index"
+      :cell="cell"
+    ></flexbox-grid-cell>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
-import { FlexGridConfig } from "../store";
+import { FlexGridConfig, FlexGridCellConfig } from "../store";
+import { Action, Getter } from "vuex-class";
+import FlexboxGridCell from "./FlexboxGridCell.vue";
 
 @Component({
+  components: {
+    FlexboxGridCell
+  },
   computed: mapState<FlexGridConfig>({
     styleObj: ({ width, height }) => ({
       maxWidth: width + "px",
@@ -19,6 +29,7 @@ import { FlexGridConfig } from "../store";
 })
 export default class FlexboxGrid extends Vue {
   @Prop() private msg!: string;
+  @Getter cellModels!: FlexGridCellConfig[];
 }
 </script>
 

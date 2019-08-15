@@ -6,6 +6,7 @@
       :id="label"
       :value="value"
       @input="$emit('input', $event.target.value)"
+      :type="type || 'text'"
     />
   </label>
 </template>
@@ -17,6 +18,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class TextField extends Vue {
   @Prop() private label!: string;
   @Prop() private value!: string;
+  @Prop() private type?: string;
 
   mounted() {}
 }

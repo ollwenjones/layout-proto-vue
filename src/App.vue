@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="editor">
+    <flexbox-grid-style :cssContent="gridStyles"></flexbox-grid-style>
     <flexbox-grid-stage></flexbox-grid-stage>
     <flexbox-grid-editor></flexbox-grid-editor>
   </div>
@@ -9,14 +10,20 @@
 import { Component, Vue } from "vue-property-decorator";
 import FlexboxGridStage from "./components/FlexboxGridStage.vue";
 import FlexboxGridEditor from "./components/FlexboxGridEditor.vue";
+import FlexboxGridStyle from './components/FlexboxGridStyle';
+import { Getter } from "vuex-class";
+import { generateStyles } from "./FlexGridHelpers";
 
 @Component({
   components: {
     FlexboxGridStage,
-    FlexboxGridEditor
+    FlexboxGridEditor,
+    FlexboxGridStyle
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  @Getter gridStyles!: string;
+}
 </script>
 
 <style lang="less">

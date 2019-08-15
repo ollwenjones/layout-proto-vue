@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { generateStyles } from "./FlexGridHelpers";
 
 Vue.use(Vuex);
 
@@ -20,7 +21,10 @@ export default new Vuex.Store({
     SET_GUTTER_VERTICAL: (state, gutter) => (state.gutters.vertical = gutter),
     SET_MARGIN_HORIZONTAL: (state, margin) =>
       (state.margins.horizontal = margin),
-    SET_MARGIN_VERTICAL: (state, margin) => (state.margins.vertical = margin)
+    SET_MARGIN_VERTICAL: (state, margin) => (state.margins.vertical = margin),
+    SET_DESKTOP_COLUMNS: (state, cols: number) => (state.columns.desktop) = cols,
+    SET_TABLET_COLUMNS: (state, cols: number) => (state.columns.tablet) = cols,
+    SET_PHONE_COLUMNS: (state, cols: number) => (state.columns.phone) = cols,
   },
   actions: {
     updateCellsFromText: ({ commit, state }, text: string) =>
@@ -46,14 +50,20 @@ export default new Vuex.Store({
     updateWidth: ({ commit }, width: number) => commit("SET_GRID_WIDTH", width),
     updateHeight: ({ commit }, height: number) =>
       commit("SET_GRID_HEIGHT", height),
-    updateGutterHorizontal: ({ commit }, gutter: number) =>
+    updateRowGap: ({ commit }, gutter: number) =>
       commit("SET_GUTTER_HORIZONTAL", gutter),
-    updateGutterVertical: ({ commit }, gutter: number) =>
+    updateColumnGap: ({ commit }, gutter: number) =>
       commit("SET_GUTTER_VERTICAL", gutter),
     updateMarginHorizontal: ({ commit }, margin: number) =>
       commit("SET_MARGIN_HORIZONTAL", margin),
     updateMarginVertical: ({ commit }, margin: number) =>
-      commit("SET_MARGIN_VERTICAL", margin)
+      commit("SET_MARGIN_VERTICAL", margin),
+    updateDesktopColumns: ({ commit }, cols: number) =>
+      commit("SET_DESKTOP_COLUMNS", cols),
+    updateTabletColumns: ({ commit }, cols: number) =>
+      commit("SET_TABLET_COLUMNS", cols),
+    updatePhoneColumns: ({ commit }, cols: number) =>
+      commit("SET_PHONE_COLUMNS", cols)
   },
   getters: {
     cellModels: state => state.cells,
@@ -63,7 +73,20 @@ export default new Vuex.Store({
     rowGap: state => state.gutters.vertical,
     colGap: state => state.gutters.horizontal,
     verticalMargin: state => state.margins.vertical,
-    horizontalMargin: state => state.margins.horizontal
+    horizontalMargin: state => state.margins.horizontal,
+    desktopColumns: state => state.columns.desktop,
+    tabletColumns: state => state.columns.tablet,
+    phoneColumns: state => state.columns.phone,
+    gridStyles: (_state, getters) => {
+      console.log("getting stypes");
+      return generateStyles(
+        getters.rowGap,
+        getters.colGap,
+        getters.desktopColumns,
+        getters.tabletColumns,
+        getters.phoneColumns
+      );
+    }
   }
 });
 
@@ -153,6 +176,9 @@ function getCellColumns(cell: FlexGridCellConfig) {
   return cell.columns;
 }
 
+/**
+ * Creates initial state for the app.
+ */
 function getDefaultState(): FlexGridConfig {
   return {
     columns: { desktop: 12, tablet: 8, phone: 4 },
