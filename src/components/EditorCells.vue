@@ -1,13 +1,21 @@
 <template>
   <div id="editor__cells-area">
-    <editor-cell v-for="(cell, index) in cellModels" :cell="cell" :key="'cell-' + index"></editor-cell>
+    <editor-cell
+      v-for="(cell, index) in cellModels"
+      :cell="cell"
+      :index="index"
+      :key="'cell-' + index"
+      :only="onlyCell"
+      @cell-change="updateCell"
+      @drop-cell="removeCell"
+    ></editor-cell>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Getter } from "vuex-class";
-import { FlexGridCellConfig } from "../store";
+import { Action, Getter } from "vuex-class";
+import { FlexGridCellConfig, UpdateCellPayload } from "../store";
 import EditorCell from "./EditorCell.vue";
 
 @Component({
@@ -17,6 +25,12 @@ import EditorCell from "./EditorCell.vue";
 })
 export default class EditorCells extends Vue {
   @Getter cellModels!: FlexGridCellConfig[];
+  @Action updateCell!: (payload: UpdateCellPayload) => void;
+  @Action removeCell!: (index: number) => void;
+
+  get onlyCell () {
+    return this.cellModels.length < 2;
+  }
 }
 </script>
 

@@ -28,11 +28,20 @@ export default new Vuex.Store({
     addCell: ({ commit, state }, cell: FlexGridCellConfig) =>
       commit("SET_CELLS", [...state.cells, cell]),
     removeCell: ({ commit, state }, index: number) => {
-      const newCells = [...state.cells].splice(index, 1);
-      commit("SET_CELLS", [...state.cells, newCells]);
+      commit("SET_CELLS", removeCell(state.cells, index));
     },
-    updateCell: ({ commit, state }) => {
-      // not as obvious, need index and config, probably to know which to update
+    updateCell: (
+      { commit, state },
+      { index, breakpointName, value }: UpdateCellPayload
+    ) => {
+      const newValue = parseInt(value, 10);
+      const cell = state.cells[index];
+      const columns = { ...cell.columns };
+      columns[breakpointName] = newValue;
+      const newCell = { ...cell, columns };
+      const newCells = [...state.cells];
+      newCells[index] = newCell;
+      commit("SET_CELLS", newCells);
     },
     updateWidth: ({ commit }, width: number) => commit("SET_GRID_WIDTH", width),
     updateHeight: ({ commit }, height: number) =>
@@ -47,6 +56,7 @@ export default new Vuex.Store({
       commit("SET_MARGIN_VERTICAL", margin)
   },
   getters: {
+    cellModels: state => state.cells,
     cellModelsAsText: state => cellsModelToText(state.cells),
     gridWidth: state => state.width,
     gridHeight: state => state.height,
@@ -70,6 +80,12 @@ export const enum ActionTypes {
   addCell = "addCell",
   removeCell = "removeCell",
   updateCell = "updateCell"
+}
+
+export interface UpdateCellPayload {
+  index: number;
+  breakpointName: "desktop" | "tablet" | "phone";
+  value: string;
 }
 
 export interface FlexGridConfig extends FlexGridCellConfig {
@@ -114,6 +130,10 @@ export function textToCellConfig(
 
     return { columns: breakPoints };
   });
+}
+
+export function removeCell(cells: FlexGridCellConfig[], index: number) {
+  return [...cells.slice(0, index), ...cells.slice(index + 1)];
 }
 
 function getPhoneCols(columnConfig: FlexGridCellConfig) {
