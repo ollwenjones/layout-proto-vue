@@ -27,6 +27,17 @@ export function getFlexCellClasses(cell: FlexGridCellConfig) {
   ].join(" ");
 }
 
+/**
+ * Create the CSS markup for the model.
+ * 
+ * This also illustrates the flexibility & testability of functional programming.
+ * 
+ * @param rowGap between rows
+ * @param columnGap between columns
+ * @param desktopColumns how many colums in desktop break-point
+ * @param tabletColumns how many columns in tablet break-point
+ * @param phoneColumns how many columns in phone break-point
+ */
 export function generateStyles(
   rowGap: number,
   columnGap: number,

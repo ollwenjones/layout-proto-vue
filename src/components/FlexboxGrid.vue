@@ -21,9 +21,13 @@ import FlexboxGridCell from "./FlexboxGridCell.vue";
     FlexboxGridCell
   },
   computed: mapState<FlexGridConfig>({
-    styleObj: ({ width, height }) => ({
+    styleObj: ({ width, height, margins }) => ({
       maxWidth: width + "px",
-      height: height + "px"
+      height: height + "px",
+      paddingLeft: margins.horizontal + "px",
+      paddingRight: margins.horizontal + "px",
+      paddingTop: margins.vertical + "px",
+      paddingBottom: margins.vertical + "px"
     })
   })
 })

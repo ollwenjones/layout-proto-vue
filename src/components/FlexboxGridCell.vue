@@ -1,9 +1,7 @@
 <template>
-  <div
-    :id="id"
-    :class="`dp-flex-layout__preview-cell ${layoutClasses}`"
-  ></div>
+  <div :id="id" :class="`dp-flex-layout__preview-cell ${layoutClasses}`"></div>
 </template>
+
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { FlexGridCellConfig } from "../store";
@@ -12,7 +10,7 @@ import { getFlexCellClasses } from "../FlexGridHelpers";
 @Component({})
 export default class FlexboxGridCell extends Vue {
   @Prop() index!: number;
-  @Prop() id!:string;
+  @Prop() id!: string;
   @Prop() cell!: FlexGridCellConfig;
 
   get layoutClasses() {

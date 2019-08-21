@@ -4,6 +4,15 @@ import { generateStyles } from "./FlexGridHelpers";
 
 Vue.use(Vuex);
 
+/**
+ * Configure the data store.
+ *
+ * This becomes the single source of truth for state in the application.
+ *
+ * In a real app, these sections (state, mutations, actions) would be in
+ * their own files, and something as specific as this view would have its
+ * own "module" - a sub-store that plugs into the root store.
+ */
 export default new Vuex.Store({
   state: getDefaultState(),
   mutations: {
@@ -30,8 +39,12 @@ export default new Vuex.Store({
   actions: {
     updateCellsFromText: ({ commit, state }, text: string) =>
       commit("SET_CELLS", textToCellConfig(text, state)),
-    addCell: ({ commit, state }, cell: FlexGridCellConfig) =>
-      commit("SET_CELLS", [...state.cells, cell]),
+    addCell: ({ commit, state }) => {
+      const cell: FlexGridCellConfig = {
+        columns: { desktop: 4, tablet: 4, phone: 4 }
+      };
+      commit("SET_CELLS", [...state.cells, cell]);
+    },
     removeCell: ({ commit, state }, index: number) => {
       commit("SET_CELLS", removeCell(state.cells, index));
     },
@@ -79,7 +92,6 @@ export default new Vuex.Store({
     tabletColumns: state => state.columns.tablet,
     phoneColumns: state => state.columns.phone,
     gridStyles: (_state, getters) => {
-      console.log("getting stypes");
       return generateStyles(
         getters.rowGap,
         getters.colGap,

@@ -35,8 +35,10 @@
       />
     </div>
     <editor-category-label>Cells</editor-category-label>
-    <editor-cells></editor-cells>
+    <grid-editor-advanced></grid-editor-advanced>
     <cell-config-labels></cell-config-labels>
+    <editor-cells></editor-cells>
+    <button id="editor__add-cell-button" @click="addCell">Add Cell</button>
     <editor-category-label>Gutters</editor-category-label>
     <text-field label="row-gap" :value="rowGap" @input="updateRowGap" type="number"></text-field>
     <text-field label="column-gap" :value="colGap" @input="onColumnGapChange" type="number"></text-field>
@@ -46,7 +48,12 @@
       type="number"
       @input="onMarginHorizontalChange"
     ></text-field>
-    <text-field label="vertical-margin" :value="verticalMargin" @input="onMarginVerticalChange" type="number"></text-field>
+    <text-field
+      label="vertical-margin"
+      :value="verticalMargin"
+      @input="onMarginVerticalChange"
+      type="number"
+    ></text-field>
   </div>
 </template>
 
@@ -58,13 +65,15 @@ import TextField from "./TextField.vue";
 import { State, Action, Getter } from "vuex-class";
 import CellConfigLabels from "./CellConfigLabels.vue";
 import EditorCells from "./EditorCells.vue";
+import GridEditorAdvanced from "./GridEditorAdvanced.vue";
 
 @Component({
   components: {
     EditorCategoryLabel,
     EditorCells,
     TextField,
-    CellConfigLabels
+    CellConfigLabels,
+    GridEditorAdvanced
   }
 })
 export default class FlexboxGridEditor extends Vue {
@@ -87,6 +96,7 @@ export default class FlexboxGridEditor extends Vue {
   @Action updateDesktopColumns!: Function;
   @Action updateTabletColumns!: Function;
   @Action updatePhoneColumns!: Function;
+  @Action addCell!: Function;
 
   onWidthChange(value: number) {
     this.updateWidth(value);
